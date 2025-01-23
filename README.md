@@ -7,6 +7,8 @@
 - **Remove Bindings:** Delete a key-value pair from the symbol table.
 - **Query Bindings:** Check if a key exists and retrieve its associated value.
 - **Length Query:** Get the number of bindings in the table.
+- **Free Query:** To delete the table.
+
 
 ## Prerequisites
 - **C++ Compiler:** Supports at least C++14.
@@ -18,7 +20,7 @@
    `git clone <repository_url>`
 
 2. Navigate to the project folder:  
-   `cd symbol_table_project`
+   `cd Symbol_Table`
 
 3. Build the project using `make` or `cmake`:  
    For Makefile:  
@@ -43,3 +45,12 @@
 
 - **Querying Bindings:**  
   Use the `SymTable_contains` to check if a key exists and `SymTable_get` to retrieve its value.
+
+- **Length Bindings:**  
+  Use the `SymTable_length` method to find number of key-value pairs.
+
+- **Contain Bindings:**  
+  Use the `SymTable_contain` method to find whether there exists a key-value pair with given key.
+
+- **Free Bindings:**  
+  Use the `SymTable_free` method to remove all the key-value pairs.
