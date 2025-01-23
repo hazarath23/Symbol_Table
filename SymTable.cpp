@@ -39,6 +39,14 @@ int SymTable_contains (SymTable_t oSymTable,const char *pcKey)
     }
     return 0;
 }
+void SymTable_init(struct symTable **oSymTable,const char *pcKey,void *pvValue)
+{
+    SymTable_t t = SymTable_new();
+    t->k = pcKey;
+    t->value =  pvValue;
+    t->next=NULL;
+    *oSymTable = t;
+}
 int SymTable_put (SymTable_t oSymTable,const char *pcKey,void *pvValue)
 {
     SymTable_t t = SymTable_new();
@@ -48,6 +56,7 @@ int SymTable_put (SymTable_t oSymTable,const char *pcKey,void *pvValue)
         t->value =  pvValue;
         t->next=NULL;
         oSymTable = t;
+        cout<<oSymTable->k<<endl;exit(0);
         return 1;
     }
     else
@@ -106,40 +115,41 @@ void *SymTable_get (SymTable_t oSymTable, const char *pcKey)
     }
     return NULL;
 }
-void *SymTable_remove (SymTable_t oSymTable,const char *pcKey)
+void *SymTable_remove (struct symTable **oSymTable,const char *pcKey)
 {
-    if(strcmp(oSymTable->k,pcKey)==0)
+    struct symTable *gh = *oSymTable;
+    if(strcmp(gh->k,pcKey)==0)
     {
-        SymTable_t p = oSymTable;
+        SymTable_t p = gh;
         void *val = p->value;
-        if(oSymTable->next!=NULL)
-        oSymTable=oSymTable->next;
+        if(gh->next!=NULL)
+        *oSymTable=gh->next;
         else
-        oSymTable=NULL;
+        *oSymTable=NULL;
         free(p);
         return val;
     }
     else
     {
-        while(oSymTable!=NULL&&strcmp((oSymTable->next)->k,pcKey)!=0)
+        while(gh!=NULL&&strcmp((gh->next)->k,pcKey)!=0)
         {
-            oSymTable=oSymTable->next;
-            if(oSymTable->next==NULL)
+            gh=gh->next;
+            if(gh->next==NULL)
             {
                 return NULL;
             }
         }
-        if(oSymTable!=NULL&&strcmp((oSymTable->next)->k,pcKey)==0)
+        if(gh!=NULL&&strcmp((gh->next)->k,pcKey)==0)
         {
-            SymTable_t p = oSymTable->next;
+            SymTable_t p = gh->next;
             void* kr = p->value;
-            if(p!=NULL)
+            if(p->next!=NULL)
             {
-                oSymTable->next = p->next;
+                gh->next = p->next;
             } 
             else
             {
-                oSymTable->next=NULL;
+                gh->next=NULL;
             }
             free(p);return kr;
         }
